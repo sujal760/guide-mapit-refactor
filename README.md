@@ -61,18 +61,18 @@ The rest of the app is entirely event-based, so the flow above represents all of
 
 What should we consider here? First, we're stuck with global variables, so we can't do much with those (notice in particular that orange global declaration do not have sockets - so you can't even attach them to any other procedure). Instead, let's look at the composition of the `initData` procedure: What is interesting to me is that much of what `initData` does is not actually data-related. Instead, `initData` initializes _three_ screen components and _one_ actual data structure (the `listLocations` list). Wouldn't it be better, then, to do the following:
 
-![refactored initData](./images/first-four-1.png)
+![refactored initData](./images/first-four-2.png)
 
-### `initData`
+#### `initData`
 The modified `initData` concerns itself _only_ with initializing actual data - and not screen components. Notice that `initData` does actually initialize data (i.e. the equivalent of an [assignment statement](https://en.wikipedia.org/wiki/Assignment_(computer_science)) in a more traditional programming language); in contrast to the [declaration](https://en.wikipedia.org/wiki/Declaration_(computer_programming)) of the global variables which occur in the `initialize global...` blocks.
 
-### `initView`
+#### `initView`
 The new `initView` procedure collects all the screen component-related initializations that occurred in both the former `initData` and in the `Screen1.initialize` event. The procedure is called `initView` as a nod toward the typical approach to [MVC architecture](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller), which we'll discuss in more detail later in the semester. Notice as well that the screen components in `initView` are grouped according to component: both `ListPicker1` calls are grouped together first, with the call to set `enable` to `false` intentionally second. 
 
-### `Screen1.initialize`
+#### `Screen1.initialize`
 Finally, of course we need some way to call the new `initView` procedure, so it is added to the `Screen1.initialize` event. You can think of this event as your [program entry point](https://en.wikipedia.org/wiki/Entry_point), since it will fire every time the app is opened.
 
-## Refactoring `showMap`
+### Refactoring `showMap`
 In examining other Map It code blocks you may have noticed that there is some very similar code in the `when MyLocationButton.click` event and the `showMap` procedure. You may also have noticed that `showMap` is called only once in the program, in the `else` branch of the `when ViewOnMapButton.click` event. Clearly, we want to reduce code repetition as much as possible - but how do we do this with code blocks?
 
 ![showMap repeated code](./images/showmap-1.png)
